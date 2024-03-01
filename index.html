@@ -3,26 +3,34 @@
 <head>
   <title>Snake</title>
   <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    overscroll-behavior-y: none;
-  }
+    html, body {
+      height: 100%;
+      margin: 0;
+      overscroll-behavior-y: none;
+      font-family: 'Press Start 2P', cursive; /* Use a retro-style font */
+    }
 
-  body {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  canvas {
-    border: 1px solid white;
-  }
+    body {
+      background: #000;
+      color: #00FF00; /* Set text color to green */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      border: 1px solid #FFF;
+      background: #000;
+    }
   </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
-<header>context.fillText()</header>
 <body>
-<canvas width="400" height="400" id="game"></canvas>
+  <canvas width="400" height="400" id="game"></canvas>
+  <audio id="backgroundMusic" loop>
+    <source src="your-background-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
