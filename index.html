@@ -32,20 +32,19 @@ var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
 var grid = 16;
-var count = 0;
   
 var snake = {
-  x: 160,
-  y: 160,
-  dx: grid,
-  dy: 0,
-  cells: [],
-  maxCells: 4
-};
-var apple = {
-  x: 320,
-  y: 320
-};
+      x: 160,
+      y: 160,
+      dx: grid,
+      dy: 0,
+      cells: [],
+      maxCells: 4
+    };
+    var fruit = {
+      x: 0,
+      y: 0
+    };
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -83,8 +82,8 @@ function loop() {
   }
 
   context.fillStyle = 'red';
-  context.fillRect(apple.x, apple.y, grid-1, grid-1);
-
+      context.fillRect(fruit.x, fruit.y, grid - 1, grid - 1);
+  
   context.fillStyle = 'green';
   snake.cells.forEach(function(cell, index) {
     context.fillRect(cell.x, cell.y, grid-1, grid-1);
@@ -140,6 +139,12 @@ document.addEventListener('touchend', function(e) {
   var touchEndY = e.changedTouches[0].clientY;
   handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
 });
+
+function resetFruit() {
+      // Reset the fruit position ensuring it stays within the grid
+      fruit.x = Math.floor(Math.random() * (canvas.width / grid)) * grid;
+      fruit.y = Math.floor(Math.random() * (canvas.height / grid)) * grid;
+    }
 
 function handleInput(keyCode) {
   if (keyCode === 37 && snake.dx === 0) {
