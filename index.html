@@ -115,8 +115,7 @@ document.addEventListener('keydown', function(e) {
   handleInput(e.which);
 });
 
-document.addEventListener('touchstart', function(e) {
-  // Prevent default to avoid scrolling
+document.addEventListener('touchmove', function(e) {
   e.preventDefault();
   var touchX = e.changedTouches[0].clientX;
   var touchY = e.changedTouches[0].clientY;
@@ -140,18 +139,15 @@ function handleInput(keyCode) {
 }
 
 function handleTouchInput(touchX, touchY) {
-  // Determine the direction based on touch position relative to the snake head
   var headX = snake.cells[0].x;
   var headY = snake.cells[0].y;
 
   var deltaX = touchX - headX;
   var deltaY = touchY - headY;
 
-  // Adjust sensitivity by changing the threshold value
   var threshold = grid;
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    // Horizontal swipe
     if (deltaX > threshold && snake.dx === 0) {
       snake.dx = grid;
       snake.dy = 0;
@@ -160,7 +156,6 @@ function handleTouchInput(touchX, touchY) {
       snake.dy = 0;
     }
   } else {
-    // Vertical swipe
     if (deltaY > threshold && snake.dy === 0) {
       snake.dy = grid;
       snake.dx = 0;
