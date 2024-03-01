@@ -48,16 +48,18 @@ var apple = {
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+  
+var moveDelay = 10; // Adjust this value to control the speed of the snake
 
 function loop() {
   requestAnimationFrame(loop);
 
-  if (++count < 4) {
+  if (++count < moveDelay) {
     return;
   }
 
   count = 0;
-  context.clearRect(0,0,canvas.width,canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
   snake.x += snake.dx;
   snake.y += snake.dy;
