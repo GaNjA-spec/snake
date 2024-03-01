@@ -27,10 +27,7 @@
 </head>
 <body>
   <canvas width="400" height="400" id="game"></canvas>
-  <audio id="backgroundMusic" loop>
-    <source src="your-background-music.mp3" type="audio/mpeg">
-    Your browser does not support the audio tag.
-  </audio>
+  <embed src="bgm.mp3" loop="true" autostart="true" width="2" height="0">
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
