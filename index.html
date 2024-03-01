@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snake</title>
   <style>
   html, body {
@@ -12,30 +11,23 @@
     }
   }
 
- body {
-  background: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0; /* Remove default margin */
-  overflow: hidden; /* Prevent horizontal scrolling */
-canvas {
-  border: 1px solid white;
-  max-width: 100%; /* Make the canvas responsive */
-  max-height: 100vh; /* Limit canvas height to the viewport height */
-}
+  body {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid white;
+  }
   </style>
 </head>
 <header>context.fillText()</header>
 <body>
-<canvas width="400" height="400" id="game"></canvas>
+<canvas width="1000" height="1000" id="game"></canvas>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
-
-// Adjust canvas size based on device width
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
 var grid = 16;
 var count = 0;
@@ -128,13 +120,14 @@ document.addEventListener('keydown', function(e) {
 
 var touchStartX, touchStartY;
 
-document.addEventListener('touchstart', function (e) {
+document.addEventListener('touchstart', function(e) {
+  // Prevent default to avoid scrolling
   e.preventDefault();
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
+  touchStartX = e.changedTouches[0].clientX;
+  touchStartY = e.changedTouches[0].clientY;
 });
 
-document.addEventListener('touchend', function (e) {
+document.addEventListener('touchend', function(e) {
   e.preventDefault();
   var touchEndX = e.changedTouches[0].clientX;
   var touchEndY = e.changedTouches[0].clientY;
