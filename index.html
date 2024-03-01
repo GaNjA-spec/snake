@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +69,7 @@
   </div>
   <p>‎ </p>
   <div class='container'>
-    <button id="openSiteButton" onclick="openWebsite()" type="button">Return</button>
+    <button id="openSiteButton" onclick="openWebsite()" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)">Return</button>
   </div>
 
   <script>
@@ -202,6 +203,15 @@ function handleInput(keyCode) {
     snake.dx = 0;
   }
 }
+
+function touchStart(event) {
+    // Handle touch start event (if needed)
+  }
+
+  function touchEnd(event) {
+    // Handle touch end event
+    openWebsite();
+  }
 
 function handleSwipe(startX, startY, endX, endY) {
   var deltaX = endX - startX;
