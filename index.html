@@ -40,10 +40,18 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
 <body>
+  <div>
   <canvas width="400" height="400" id="game"></canvas>
-  <embed src="https://github.com/GaNjA-spec/snake/blob/main/bgm.mp3" loop="true" autostart="true" width="2" height="0">
+    <p><audio id="loop-limited" controls="controls" autoplay style="width: 6em;height:20px;"><source src="https://github.com/GaNjA-spec/snake/blob/main/bgm.mp3" type="audio/ogg" /><source src="https://github.com/GaNjA-spec/snake/blob/main/bgm.mp3" type="audio/mpeg" /></audio><br />
+  </div>
+  <div>
 <button id="openSiteButton" onclick="openWebsite()">Return</button>
- 
+ </div>
+  <script>
+var loopLimit = 5;
+var loopCounter = 0;
+document.getElementById('loop-limited').addEventListener('ended', function(){if (loopCounter < loopLimit){this.currentTime = 0;this.play();loopCounter++;}
+}, false);</script></p>
   <script>
 
 var canvas = document.getElementById('game');
