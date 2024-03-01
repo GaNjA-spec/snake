@@ -4,12 +4,9 @@
   <title>Snake</title>
   <style>
   html, body {
-    html, body {
-      height: 100%;
-      margin: 90px;
-      padding: 20px;
-      overscroll-behavior-y: none; /* Disable pull-to-refresh on some browsers */
-    }
+    height: 100%;
+    margin: 0;
+    overscroll-behavior-y: none;
   }
 
   body {
@@ -25,26 +22,26 @@
 </head>
 <header>context.fillText()</header>
 <body>
-<canvas width="500" height="500" id="game"></canvas>
-<button onclick="openAnotherSite()">Return</button>
+<canvas width="400" height="400" id="game"></canvas>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
 var grid = 16;
-
-    var snake = {
-      x: 160,
-      y: 160,
-      dx: grid,
-      dy: 0,
-      cells: [],
-      maxCells: 4
-    };
-    var fruit = {
-      x: 0,
-      y: 0
-    };
+var count = 0;
+  
+var snake = {
+  x: 160,
+  y: 160,
+  dx: grid,
+  dy: 0,
+  cells: [],
+  maxCells: 4
+};
+var apple = {
+  x: 320,
+  y: 320
+};
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -81,10 +78,9 @@ function loop() {
     snake.cells.pop();
   }
 
-context.fillStyle = 'red';
-      context.fillRect(fruit.x, fruit.y, grid - 1, grid - 1);
-    }
-  
+  context.fillStyle = 'red';
+  context.fillRect(apple.x, apple.y, grid-1, grid-1);
+
   context.fillStyle = 'green';
   snake.cells.forEach(function(cell, index) {
     context.fillRect(cell.x, cell.y, grid-1, grid-1);
@@ -103,11 +99,6 @@ context.fillStyle = 'red';
     }
   });
 }
-
-  function openAnotherSite() {
-      // Replace 'https://example.com' with the URL of the site you want to open
-      window.location.href = 'https://ganja-spec.github.io/portfolio/';
-    }
 
 function resetGame() {
   snake.x = 160;
@@ -140,15 +131,6 @@ document.addEventListener('touchend', function(e) {
   var touchEndY = e.changedTouches[0].clientY;
   handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
 });
-
-function resetFruit() {
-      // Reset the fruit position ensuring it stays within the grid
-      fruit.x = Math.floor(Math.random() * (canvas.width / grid)) * grid;
-      fruit.y = Math.floor(Math.random() * (canvas.height / grid)) * grid;
-    }
-
-    // Initialize the fruit position
-    resetFruit();
 
 function handleInput(keyCode) {
   if (keyCode === 37 && snake.dx === 0) {
