@@ -39,19 +39,34 @@
   </style>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
+<audio id="divAudio">
+    <source src="https://www.dropbox.com/scl/fi/2bl3oebeidj3g3531btw9/Jurassic-Park-Game-Boy-Level-1-Music.mp4?rlkey=o9qhf95bbtncu68l29ngd7qr3&dl=1" type="audio/mp3">
+ </audio>
+ 
+ <script>
+    var vAudio = document.getElementById("divAudio");
+    var hasInit = false;
+    function playMusic()
+    {
+       if(!hasInit)
+       {
+           hasInit = true;
+           vAudio.play();
+       }
+    }
+ </script>
+ <div onmouseover="playMusic()">
 <body>
+  
+
   <div>
   <canvas width="400" height="400" id="game"></canvas>
-    <p><audio id="loop-limited" controls="controls" autoplay style="width: 6em;height:20px;"><source src="https://github.com/GaNjA-spec/snake/blob/main/bgm.mp3" type="audio/ogg" /><source src="https://github.com/GaNjA-spec/snake/blob/main/bgm.mp3" type="audio/mpeg" /></audio><br />
   </div>
+  <p>‎ </p>
   <div>
 <button id="openSiteButton" onclick="openWebsite()">Return</button>
  </div>
-  <script>
-var loopLimit = 5;
-var loopCounter = 0;
-document.getElementById('loop-limited').addEventListener('ended', function(){if (loopCounter < loopLimit){this.currentTime = 0;this.play();loopCounter++;}
-}, false);</script></p>
+
   <script>
 
 var canvas = document.getElementById('game');
@@ -211,5 +226,7 @@ function handleSwipe(startX, startY, endX, endY) {
 
 requestAnimationFrame(loop);
 </script>
+
 </body>
+</div>
 </html>
