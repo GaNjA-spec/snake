@@ -3,6 +3,10 @@
 <head>
   <title>Snake</title>
   <style>
+    container{
+      position:relative;
+      z-index:-1;
+    }
     html, body {
       height: 100%;
       margin: 0;
@@ -63,8 +67,9 @@
   <canvas width="400" height="400" id="game"></canvas>
   </div>
   <p>‎ </p>
-<button id="openSiteButton" onclick="openWebsite()">Return</button>
-
+  <div class='container'>
+    <button id="openSiteButton" onclick="openWebsite()">Return</button>
+  </div>
 
   <script>
 
