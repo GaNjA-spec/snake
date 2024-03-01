@@ -61,6 +61,7 @@ function loop() {
   count = 0;
   context.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Adjust the snake movement by adding a delay
   snake.x += snake.dx;
   snake.y += snake.dy;
 
@@ -89,12 +90,11 @@ function loop() {
   snake.cells.forEach(function(cell, index) {
     context.fillRect(cell.x, cell.y, grid-1, grid-1);
 
-    if (cell.x === apple.x && cell.y === apple.y) {
-      snake.maxCells++;
-
-      apple.x = getRandomInt(0, 25) * grid;
-      apple.y = getRandomInt(0, 25) * grid;
-    }
+    if (snake.x === apple.x && snake.y === apple.y) {
+    snake.maxCells++;
+    apple.x = getRandomInt(0, Math.floor(canvas.width / grid)) * grid;
+    apple.y = getRandomInt(0, Math.floor(canvas.height / grid)) * grid;
+  }
 
     for (var i = index + 1; i < snake.cells.length; i++) {
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
