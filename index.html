@@ -32,8 +32,8 @@ var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
 var grid = 16;
-  
-var snake = {
+
+    var snake = {
       x: 160,
       y: 160,
       dx: grid,
@@ -81,8 +81,9 @@ function loop() {
     snake.cells.pop();
   }
 
-  context.fillStyle = 'red';
+context.fillStyle = 'red';
       context.fillRect(fruit.x, fruit.y, grid - 1, grid - 1);
+    }
   
   context.fillStyle = 'green';
   snake.cells.forEach(function(cell, index) {
@@ -145,6 +146,9 @@ function resetFruit() {
       fruit.x = Math.floor(Math.random() * (canvas.width / grid)) * grid;
       fruit.y = Math.floor(Math.random() * (canvas.height / grid)) * grid;
     }
+
+    // Initialize the fruit position
+    resetFruit();
 
 function handleInput(keyCode) {
   if (keyCode === 37 && snake.dx === 0) {
