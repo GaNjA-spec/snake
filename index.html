@@ -26,6 +26,7 @@
 <header>context.fillText()</header>
 <body>
 <canvas width="500" height="500" id="game"></canvas>
+<button onclick="openAnotherSite()">Return</button>
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
@@ -102,6 +103,11 @@ function loop() {
     }
   });
 }
+
+  function openAnotherSite() {
+      // Replace 'https://example.com' with the URL of the site you want to open
+      window.location.href = 'https://ganja-spec.github.io/portfolio/';
+    }
 
 function resetGame() {
   snake.x = 160;
