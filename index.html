@@ -115,11 +115,20 @@ document.addEventListener('keydown', function(e) {
   handleInput(e.which);
 });
 
-document.addEventListener('touchmove', function(e) {
+var touchStartX, touchStartY;
+
+document.addEventListener('touchstart', function(e) {
+  // Prevent default to avoid scrolling
   e.preventDefault();
-  var touchX = e.changedTouches[0].clientX;
-  var touchY = e.changedTouches[0].clientY;
-  handleTouchInput(touchX, touchY);
+  touchStartX = e.changedTouches[0].clientX;
+  touchStartY = e.changedTouches[0].clientY;
+});
+
+document.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  var touchEndX = e.changedTouches[0].clientX;
+  var touchEndY = e.changedTouches[0].clientY;
+  handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
 });
 
 function handleInput(keyCode) {
@@ -138,28 +147,25 @@ function handleInput(keyCode) {
   }
 }
 
-function handleTouchInput(touchX, touchY) {
-  var headX = snake.cells[0].x;
-  var headY = snake.cells[0].y;
-
-  var deltaX = touchX - headX;
-  var deltaY = touchY - headY;
-
-  var threshold = grid;
+function handleSwipe(startX, startY, endX, endY) {
+  var deltaX = endX - startX;
+  var deltaY = endY - startY;
 
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > threshold && snake.dx === 0) {
+    // Horizontal swipe
+    if (deltaX > 0 && snake.dx === 0) {
       snake.dx = grid;
       snake.dy = 0;
-    } else if (deltaX < -threshold && snake.dx === 0) {
+    } else if (deltaX < 0 && snake.dx === 0) {
       snake.dx = -grid;
       snake.dy = 0;
     }
   } else {
-    if (deltaY > threshold && snake.dy === 0) {
+    // Vertical swipe
+    if (deltaY > 0 && snake.dy === 0) {
       snake.dy = grid;
       snake.dx = 0;
-    } else if (deltaY < -threshold && snake.dy === 0) {
+    } else if (deltaY < 0 && snake.dy === 0) {
       snake.dy = -grid;
       snake.dx = 0;
     }
