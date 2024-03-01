@@ -3,217 +3,177 @@
 <head>
   <title>Snake</title>
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      overscroll-behavior-y: none;
-      font-family: 'Press Start 2P', cursive; /* Use a retro-style font */
-    }
+  html, body {
+    height: 100%;
+    margin: 0;
+    overscroll-behavior-y: none;
+  }
 
-    body {
-      background: #000;
-      color: #00FF00; /* Set text color to green */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    canvas {
-      border: 1px solid #FFF;
-      background: #000;
-    }
+  body {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid white;
+  }
   </style>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
+<header>context.fillText()</header>
 <body>
-  <canvas width="400" height="400" id="game"></canvas>
-  <audio id="backgroundMusic" loop>
-    <source src="/bgm.mp3" type="audio/mpeg">
-    Your browser does not support the audio tag.
-  </audio>
-  <script>
-    var canvas = document.getElementById('game');
-    var context = canvas.getContext('2d');
+<canvas width="400" height="400" id="game"></canvas>
+<script>
+var canvas = document.getElementById('game');
+var context = canvas.getContext('2d');
 
-    var grid = 16;
-    var count = 0;
-      
-    var snake = {
-      x: 160,
-      y: 160,
-      dx: grid,
-      dy: 0,
-      cells: [],
-      maxCells: 4
-    };
-    var apple = {
-      x: 320,
-      y: 320
-    };
+var grid = 16;
+var count = 0;
+  
+var snake = {
+  x: 160,
+  y: 160,
+  dx: grid,
+  dy: 0,
+  cells: [],
+  maxCells: 4
+};
+var apple = {
+  x: 320,
+  y: 320
+};
 
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
-    function loop() {
-      requestAnimationFrame(loop);
+function loop() {
+  requestAnimationFrame(loop);
 
-      if (++count < 4) {
-        return;
-      }
+  if (++count < 4) {
+    return;
+  }
 
-      count = 0;
-      context.clearRect(0, 0, canvas.width, canvas.height);
+  count = 0;
+  context.clearRect(0,0,canvas.width,canvas.height);
 
-      snake.x += snake.dx;
-      snake.y += snake.dy;
+  snake.x += snake.dx;
+  snake.y += snake.dy;
 
-      if (snake.x < 0) {
-        snake.x = canvas.width - grid;
-      } else if (snake.x >= canvas.width) {
-        snake.x = 0;
-      }
-      
-      if (snake.y < 0) {
-        snake.y = canvas.height - grid;
-      } else if (snake.y >= canvas.height) {
-        snake.y = 0;
-      }
+  if (snake.x < 0) {
+    snake.x = canvas.width - grid;
+  } else if (snake.x >= canvas.width) {
+    snake.x = 0;
+  }
+  
+  if (snake.y < 0) {
+    snake.y = canvas.height - grid;
+  } else if (snake.y >= canvas.height) {
+    snake.y = 0;
+  }
 
-      snake.cells.unshift({ x: snake.x, y: snake.y });
+  snake.cells.unshift({x: snake.x, y: snake.y});
 
-      if (snake.cells.length > snake.maxCells) {
-        snake.cells.pop();
-      }
+  if (snake.cells.length > snake.maxCells) {
+    snake.cells.pop();
+  }
 
-      // Draw fruit with texture
-      var fruitPattern = context.createPattern(createFruitTexture(), 'repeat');
-      context.fillStyle = fruitPattern;
-      context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+  context.fillStyle = 'red';
+  context.fillRect(apple.x, apple.y, grid-1, grid-1);
 
-      // Draw snake with texture
-      var snakePattern = context.createPattern(createSnakeTexture(), 'repeat');
-      context.fillStyle = snakePattern;
-      snake.cells.forEach(function (cell) {
-        context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
-      });
+  context.fillStyle = 'green';
+  snake.cells.forEach(function(cell, index) {
+    context.fillRect(cell.x, cell.y, grid-1, grid-1);
 
-      function createFruitTexture() {
-        var textureCanvas = document.createElement('canvas');
-        textureCanvas.width = grid;
-        textureCanvas.height = grid;
-        var textureContext = textureCanvas.getContext('2d');
-
-        // Draw texture on the fruit (e.g., diagonal lines)
-        textureContext.strokeStyle = '#FF0000'; // Red color
-        textureContext.lineWidth = 2;
-        textureContext.beginPath();
-        textureContext.moveTo(0, 0);
-        textureContext.lineTo(grid, grid);
-        textureContext.moveTo(grid, 0);
-        textureContext.lineTo(0, grid);
-        textureContext.stroke();
-
-        return textureCanvas;
-      }
-
-      function createSnakeTexture() {
-        var textureCanvas = document.createElement('canvas');
-        textureCanvas.width = grid;
-        textureCanvas.height = grid;
-        var textureContext = textureCanvas.getContext('2d');
-
-        // Draw texture on the snake (e.g., checkerboard pattern)
-        var tileSize = grid / 4;
-        for (var i = 0; i < 4; i++) {
-          for (var j = 0; j < 4; j++) {
-            if ((i + j) % 2 === 0) {
-              textureContext.fillStyle = '#00FF00'; // Green color
-            } else {
-              textureContext.fillStyle = '#000000'; // Black color
-            }
-            textureContext.fillRect(i * tileSize, j * tileSize, tileSize, tileSize);
-          }
-        }
-
-        return textureCanvas;
-      }
-    }
-
-    function resetGame() {
-      snake.x = 160;
-      snake.y = 160;
-      snake.cells = [];
-      snake.maxCells = 4;
-      snake.dx = grid;
-      snake.dy = 0;
+    if (cell.x === apple.x && cell.y === apple.y) {
+      snake.maxCells++;
 
       apple.x = getRandomInt(0, 25) * grid;
       apple.y = getRandomInt(0, 25) * grid;
     }
 
-    document.addEventListener('keydown', function (e) {
-      handleInput(e.which);
-    });
-
-    var touchStartX, touchStartY;
-
-    document.addEventListener('touchstart', function (e) {
-      // Prevent default to avoid scrolling
-      e.preventDefault();
-      touchStartX = e.changedTouches[0].clientX;
-      touchStartY = e.changedTouches[0].clientY;
-    });
-
-    document.addEventListener('touchend', function (e) {
-      e.preventDefault();
-      var touchEndX = e.changedTouches[0].clientX;
-      var touchEndY = e.changedTouches[0].clientY;
-      handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-    });
-
-    function handleInput(keyCode) {
-      if (keyCode === 37 && snake.dx === 0) {
-        snake.dx = -grid;
-        snake.dy = 0;
-      } else if (keyCode === 38 && snake.dy === 0) {
-        snake.dy = -grid;
-        snake.dx = 0;
-      } else if (keyCode === 39 && snake.dx === 0) {
-        snake.dx = grid;
-        snake.dy = 0;
-      } else if (keyCode === 40 && snake.dy === 0) {
-        snake.dy = grid;
-        snake.dx = 0;
+    for (var i = index + 1; i < snake.cells.length; i++) {
+      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+        resetGame();
       }
     }
+  });
+}
 
-    function handleSwipe(startX, startY, endX, endY) {
-      var deltaX = endX - startX;
-      var deltaY = endY - startY;
+function resetGame() {
+  snake.x = 160;
+  snake.y = 160;
+  snake.cells = [];
+  snake.maxCells = 4;
+  snake.dx = grid;
+  snake.dy = 0;
 
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // Horizontal swipe
-        if (deltaX > 0 && snake.dx === 0) {
-          snake.dx = grid;
-          snake.dy = 0;
-        } else if (deltaX < 0 && snake.dx === 0) {
-          snake.dx = -grid;
-          snake.dy = 0;
-        }
-      } else {
-        // Vertical swipe
-        if (deltaY > 0 && snake.dy === 0) {
-          snake.dy = grid;
-          snake.dx = 0;
-        } else if (deltaY < 0 && snake.dy === 0) {
-          snake.dy = -grid;
-          snake.dx = 0;
-        }
-      }
+  apple.x = getRandomInt(0, 25) * grid;
+  apple.y = getRandomInt(0, 25) * grid;
+}
+
+document.addEventListener('keydown', function(e) {
+  handleInput(e.which);
+});
+
+var touchStartX, touchStartY;
+
+document.addEventListener('touchstart', function(e) {
+  // Prevent default to avoid scrolling
+  e.preventDefault();
+  touchStartX = e.changedTouches[0].clientX;
+  touchStartY = e.changedTouches[0].clientY;
+});
+
+document.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  var touchEndX = e.changedTouches[0].clientX;
+  var touchEndY = e.changedTouches[0].clientY;
+  handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+});
+
+function handleInput(keyCode) {
+  if (keyCode === 37 && snake.dx === 0) {
+    snake.dx = -grid;
+    snake.dy = 0;
+  } else if (keyCode === 38 && snake.dy === 0) {
+    snake.dy = -grid;
+    snake.dx = 0;
+  } else if (keyCode === 39 && snake.dx === 0) {
+    snake.dx = grid;
+    snake.dy = 0;
+  } else if (keyCode === 40 && snake.dy === 0) {
+    snake.dy = grid;
+    snake.dx = 0;
+  }
+}
+
+function handleSwipe(startX, startY, endX, endY) {
+  var deltaX = endX - startX;
+  var deltaY = endY - startY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    // Horizontal swipe
+    if (deltaX > 0 && snake.dx === 0) {
+      snake.dx = grid;
+      snake.dy = 0;
+    } else if (deltaX < 0 && snake.dx === 0) {
+      snake.dx = -grid;
+      snake.dy = 0;
     }
+  } else {
+    // Vertical swipe
+    if (deltaY > 0 && snake.dy === 0) {
+      snake.dy = grid;
+      snake.dx = 0;
+    } else if (deltaY < 0 && snake.dy === 0) {
+      snake.dy = -grid;
+      snake.dx = 0;
+    }
+  }
+}
 
-    requestAnimationFrame(loop);
-  </script>
+requestAnimationFrame(loop);
+</script>
 </body>
 </html>
