@@ -92,7 +92,19 @@ function loop() {
   context.fillStyle = 'green';
   snake.cells.forEach(function(cell, index) {
     context.fillRect(cell.x, cell.y, grid-1, grid-1);
+    // Draw score
+      context.fillStyle = '#00FF00'; // Green color
+      context.font = '16px "Press Start 2P"';
+      context.fillText('Score: ' + score, 10, 20);
 
+    if (cell.x === apple.x && cell.y === apple.y) {
+        snake.maxCells++;
+        score++; // Increase score
+        apple.x = getRandomInt(0, 25) * grid;
+        apple.y = getRandomInt(0, 25) * grid;
+      }
+    }
+                      
     if (cell.x === apple.x && cell.y === apple.y) {
       snake.maxCells++;
 
